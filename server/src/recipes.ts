@@ -1,0 +1,47 @@
+import type {Profile,Recipe} from './domain.js';
+import {exclusion} from './domain.js';
+const rows=[
+['lemon-chicken-bowl','Lemon Garlic Chicken Bowl','One-pan lemon-garlic chicken over basmati with wilted spinach.',25,540,38,42,18,['chicken breast','basmati rice','garlic','spinach','lemon'],'none'],
+['chickpea-spinach-curry','Chickpea & Spinach Coconut Curry','Creamy coconut curry with chickpeas and wilted spinach.',30,460,18,52,20,['canned chickpeas','spinach','coconut milk','garlic'],'vegan'],
+['tomato-chickpea-salad','Tomato Basil Chickpea Salad','No-cook salad of cherry tomatoes, chickpeas and basil.',10,310,12,34,12,['cherry tomatoes','canned chickpeas','basil'],'vegan'],
+['egg-fried-rice','Egg Fried Rice with Greens','Weeknight fried rice with egg, garlic and greens.',18,480,19,60,15,['eggs','rice','garlic','spinach'],'vegetarian'],
+['spicy-peanut-noodles','Spicy Peanut Noodles','Rice noodles tossed in a spicy peanut sauce with greens.',15,610,20,74,24,['rice noodles','peanut butter','spinach'],'vegetarian'],
+['avocado-egg-bowl','Avocado Egg Breakfast Bowl','Soft eggs with creamy avocado and herbs.',15,390,20,14,28,['eggs','avocado'],'keto'],
+['tofu-green-stir-fry','Tofu Green Stir-fry','Crisp tofu and vegetables in ginger sauce.',25,420,25,32,20,['tofu','broccoli','ginger','rice'],'vegan'],
+['salmon-lemon','Lemon Dill Salmon','Roasted salmon with lemon and seasonal greens.',25,510,40,12,30,['salmon','lemon','broccoli'],'pescatarian'],
+['shrimp-garlic-pasta','Garlic Shrimp Pasta','Garlicky shrimp tossed with pasta and parsley.',25,590,35,68,18,['shrimp','pasta','garlic'],'pescatarian'],
+['almond-oat-bowl','Almond Berry Oats','Warm oats topped with berries and almonds.',12,360,12,48,14,['oats','almonds','berries'],'vegan'],
+['sesame-noodle-bowl','Sesame Vegetable Noodles','Sesame noodles with crunchy vegetables.',20,470,14,65,18,['noodles','sesame','carrots'],'vegan'],
+['lentil-soup','Hearty Lentil Soup','Tomato and lentil soup with warming spices.',35,350,21,55,6,['lentils','tomato','onion'],'vegan'],
+['turkey-lettuce-wraps','Turkey Lettuce Wraps','Savory turkey with crisp lettuce cups.',20,330,35,10,17,['turkey','lettuce','ginger'],'keto'],
+['caprese-salad','Tomato Mozzarella Caprese','Ripe tomatoes, mozzarella and fresh basil.',10,320,18,12,22,['tomato','mozzarella','basil'],'vegetarian'],
+['black-bean-tacos','Black Bean Tacos','Smoky black beans with avocado and salsa.',20,430,18,60,12,['black beans','corn tortillas','avocado'],'vegan'],
+['chicken-keto-skillet','Herbed Chicken & Tomato Skillet','Skillet chicken with blistered tomatoes and oregano.',30,520,40,20,28,['chicken breast','tomatoes','oregano'],'keto'],
+['coconut-rice-bowl','Coconut Rice & Greens Bowl','Fragrant coconut rice with garlicky greens.',25,430,10,62,16,['coconut milk','rice','garlic','spinach'],'vegan'],
+['feta-scramble','Spinach & Feta Egg Scramble','Fluffy eggs folded with wilted spinach and feta.',12,380,26,8,26,['eggs','spinach','feta'],'vegetarian'],
+['beef-broccoli','Ginger Beef and Broccoli','Lean beef and broccoli in a ginger glaze.',25,460,38,24,22,['beef','broccoli','ginger'],'keto'],
+['quinoa-roast-veg','Roasted Vegetable Quinoa','Quinoa with roasted seasonal vegetables.',35,440,16,65,14,['quinoa','zucchini','bell pepper'],'vegan'],
+['tuna-avocado','Tuna Avocado Salad','Tuna and avocado with lemon and greens.',10,390,32,12,24,['tuna','avocado','spinach'],'pescatarian'],
+['cashew-curry','Cashew Vegetable Curry','Vegetables simmered in a creamy cashew sauce.',30,510,16,48,30,['cashews','coconut milk','vegetables'],'vegan'],
+['chicken-yogurt','Garlic Yogurt Chicken Skewers','Garlic-yogurt marinated chicken skewers.',35,470,42,18,22,['chicken','yogurt','garlic'],'keto'],
+['mushroom-risotto','Mushroom Parmesan Risotto','Creamy rice with mushrooms and parmesan.',40,520,17,72,18,['rice','mushrooms','parmesan'],'vegetarian'],
+['edamame-salad','Edamame Crunch Salad','Edamame and crisp vegetables with citrus.',15,340,22,35,12,['edamame','cucumber','lime'],'vegan'],
+['prawn-rice','Prawn Garlic Rice','Garlic prawns over steamed rice.',20,495,34,48,16,['prawns','rice','garlic'],'pescatarian'],
+['eggplant-tahini','Roasted Eggplant Tahini Bowl','Smoky eggplant drizzled with tahini.',35,400,12,45,20,['eggplant','tahini','chickpeas'],'vegan'],
+['turkey-meatballs','Turkey Meatballs with Marinara','Herbed turkey meatballs with tomato sauce.',35,450,38,28,20,['turkey','breadcrumbs','tomato'],'none'],
+['pesto-pasta','Basil Pesto Pasta','Pasta coated in basil pesto and parmesan.',20,560,20,70,22,['pasta','basil','parmesan'],'vegetarian'],
+['coconut-lentils','Coconut Red Lentils','Red lentils in a spiced coconut broth.',30,420,19,58,12,['red lentils','coconut milk','ginger'],'vegan'],
+['steak-salad','Steak and Arugula Salad','Sliced steak over peppery greens.',25,480,42,8,30,['steak','arugula','tomato'],'keto'],
+['cod-tomato','Cod with Tomato Olives','Tender cod baked with tomatoes and olives.',25,360,34,18,16,['cod','tomato','olives'],'pescatarian'],
+['pumpkin-soup','Ginger Pumpkin Soup','Silky pumpkin soup with coconut and ginger.',30,290,7,38,12,['pumpkin','coconut milk','ginger'],'vegan'],
+['chicken-wrap','Chicken Hummus Wrap','Chicken and hummus in a soft wheat wrap.',15,490,34,48,18,['chicken','hummus','wheat tortilla'],'none'],
+['zucchini-noodles','Zucchini Noodles with Pesto','Fresh zucchini ribbons with basil pesto.',20,330,14,18,24,['zucchini','basil','parmesan'],'keto'],
+['oat-pancakes','Banana Oat Pancakes','Fluffy banana pancakes made with eggs and oats.',20,410,16,58,12,['banana','oats','eggs'],'vegetarian'],
+['miso-tofu','Miso Glazed Tofu','Roasted tofu with a savory miso glaze.',25,390,26,32,16,['tofu','miso','broccoli'],'vegan'],
+['greek-salad','Greek Cucumber Salad','Cucumber, olives and feta with herbs.',12,300,10,16,22,['cucumber','feta','olives'],'vegetarian'],
+['chili-beans','Three Bean Chili','Slow-simmered beans with tomato and chili.',35,390,21,62,8,['kidney beans','black beans','tomato'],'vegan'],
+['coconut-fish','Coconut Lime Fish','White fish simmered in bright coconut lime sauce.',25,420,32,20,22,['white fish','coconut milk','lime'],'pescatarian']
+] as const;
+export const library:Recipe[]=rows.map(([id,title,description,prepMinutes,calories,protein,carbs,fat,ingredients,diet])=>({id,source:'library',title,description,prepMinutes,calories,protein,carbs,fat,ingredients:[...ingredients],diets:diet==='vegan'?['vegan','vegetarian','pescatarian']:diet==='vegetarian'?['vegetarian','pescatarian']:diet==='pescatarian'?['pescatarian']:diet==='keto'?['keto']:[],allergens:inferAllergens(ingredients),uses:0}));
+function inferAllergens(ings:readonly string[]){const out:string[]=[];const map:Record<string,string[]>={Peanuts:['peanut'], 'Tree nuts':['almond','cashew','walnut','pecan','hazelnut'],Shellfish:['shrimp','prawn','crab','lobster'],Dairy:['milk','butter','cheese','yogurt','cream','feta','parmesan','mozzarella'],Gluten:['wheat','flour','bread','pasta','noodle','tortilla','breadcrumbs'],Eggs:['egg'],Soy:['soy','tofu','edamame','tempeh','miso'],Sesame:['sesame','tahini']};for(const [allergen,terms] of Object.entries(map)){const hit=ings.some(raw=>{const ingredient=raw.toLowerCase();if(allergen==='Dairy'&&(ingredient.includes('coconut milk')||ingredient.includes('peanut butter')))return false;if(allergen==='Gluten'&&ingredient.includes('rice noodle'))return false;return terms.some(term=>new RegExp(`\\b${term}s?\\b`,'i').test(ingredient));});if(hit)out.push(allergen);}return out;}
+export function rankRecipes(profile:Profile,pantry:string[]){const eligible:Recipe[]=[],excluded:{recipe:Recipe;type:'allergen'|'diet';detail:string}[]=[];for(const r of library){const reason=exclusion(r,profile);if(reason){excluded.push({recipe:r,...reason});continue;}const copy={...r,uses:r.ingredients.filter(i=>pantry.some(p=>i.toLowerCase().includes(p)||p.includes(i.toLowerCase()))).length};eligible.push(copy);}eligible.sort((a,b)=>b.uses-a.uses||a.id.localeCompare(b.id));return {eligible,excluded};}
