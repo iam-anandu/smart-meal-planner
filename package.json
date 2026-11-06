@@ -1,0 +1,1 @@
+{"name":"smart-meal-planner","private":true,"workspaces":["server","web"],"scripts":{"test":"npm run test -w server && npm run test -w web","build":"npm run build -w server && npm run build -w web","dev:server":"npm run dev -w server","dev:web":"npm run dev -w web","migrate":"npm run migrate -w server","seed":"npm run seed -w server"}}

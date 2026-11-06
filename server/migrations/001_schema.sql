@@ -1,0 +1,8 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE TABLE IF NOT EXISTS users(id uuid PRIMARY KEY DEFAULT gen_random_uuid(), email text UNIQUE NOT NULL, password_hash text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS sessions(token_hash text PRIMARY KEY, user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at timestamptz NOT NULL);
+CREATE TABLE IF NOT EXISTS preferences(user_id uuid PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE, diet text NOT NULL DEFAULT 'none', allergies text[] NOT NULL DEFAULT ARRAY['Peanuts'], goal text NOT NULL DEFAULT 'Build muscle');
+CREATE TABLE IF NOT EXISTS pantry(user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, name text NOT NULL, PRIMARY KEY(user_id,name));
+CREATE TABLE IF NOT EXISTS recipes(id text PRIMARY KEY, source text NOT NULL CHECK(source IN ('library','ai')), title text NOT NULL, description text NOT NULL, prep_minutes int NOT NULL, calories int NOT NULL, protein int NOT NULL, carbs int NOT NULL, fat int NOT NULL, ingredients text[] NOT NULL, diets text[] NOT NULL DEFAULT '{}', allergens text[] NOT NULL DEFAULT '{}', created_by uuid REFERENCES users(id) ON DELETE CASCADE, nutrition_estimate boolean NOT NULL DEFAULT false);
+CREATE TABLE IF NOT EXISTS saved_recipes(user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, recipe_id text NOT NULL REFERENCES recipes(id) ON DELETE CASCADE, saved_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(user_id,recipe_id));
+CREATE INDEX IF NOT EXISTS sessions_expiry_idx ON sessions(expires_at); CREATE INDEX IF NOT EXISTS saved_user_idx ON saved_recipes(user_id,saved_at DESC);
